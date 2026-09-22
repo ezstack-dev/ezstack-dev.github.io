@@ -68,18 +68,18 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      # ==========新增：每次部署强制设置自定义域名 ezstack.cc ==========
-      - name: Set Pages Custom Domain
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "${{ github.api_url }}/repos/${{ github.repository }}/pages"
-          method: "PUT"
-          contentType: "application/json"
-          bearerToken: ${{ secrets.GITHUB_TOKEN }}
-          data: >
-            {
-              "cname": "ezstack.cc",
-              "source": {
-                "type": "workflow"
-              }
-            }
+      # # ==========新增：每次部署强制设置自定义域名 ezstack.cc ==========
+      # - name: Set Pages Custom Domain
+      #   uses: fjogeleit/http-request-action@v1
+      #   with:
+      #     url: "${{ github.api_url }}/repos/${{ github.repository }}/pages"
+      #     method: "PUT"
+      #     contentType: "application/json"
+      #     bearerToken: ${{ secrets.GITHUB_TOKEN }}
+      #     data: >
+      #       {
+      #         "cname": "ezstack.cc",
+      #         "source": {
+      #           "type": "workflow"
+      #         }
+      #       }
