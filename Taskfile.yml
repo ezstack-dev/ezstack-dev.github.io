@@ -1,0 +1,89 @@
+version: "3"
+
+#
+# global vars: https://taskfile.dev/#/usage?id=variables
+#
+vars:
+  VAR1: "some-var"
+
+# global env:
+env:
+  ENV1: testing
+
+# env file:
+dotenv:
+  - .env
+
+################################################################################################
+
+tasks:
+  init:
+    cmds:
+      - cp .env.local .env
+
+  ################################################################################
+
+  uv:
+    cmds:
+      - uv {{.CLI_ARGS}}
+
+  dev:
+    desc: 开发环境
+    aliases: ["d"]
+    cmds:
+      - pnpm run docs:dev
+
+  docs:
+    cmds:
+      - uv sync --all-packages --all-groups
+      - uv run mkdocs serve --open --watch=docs --watch=mkdocs.yml --dev-addr=localhost:5003
+
+  docs:deploy:
+    aliases: ["docs:d"]
+    cmds:
+      - task: sync
+      - uv run mkdocs gh-deploy # build and create gh-pages branch
+      - git push origin gh-pages:gh-pages --force # push to public repo
+
+  ################################################################################
+
+  count:
+    cmds:
+      - tokei # 代码统计: https://github.com/XAMPPRocky/tokei
+
+  quick:
+    aliases: ["q"]
+    cmds:
+      - task: cc
+      - task: push
+
+  # usage: task rc -- 2
+  rc:
+    aliases: ["reset:commit"]
+    cmds:
+      - git reset --soft HEAD~{{.CLI_ARGS}}
+      - task: c
+
+  cc:
+    cmds:
+      - task: commit
+      - task: commit
+
+  commit:
+    aliases: ["c"]
+    cmds:
+      - git add .
+      - git status
+      - |
+        git commit -m '👷 chore: update' --no-verify
+    ignore_error: true
+
+  pull:
+    cmds:
+      - git config pull.rebase false
+      - git pull origin main
+
+  push:
+    cmds:
+      - git push origin main --tags
+      - repo_url=`git remote -v | grep push | awk -F ":" '{print $2}' | awk -F ".git" '{print "https://github.com/"$1}'`; open $repo_url

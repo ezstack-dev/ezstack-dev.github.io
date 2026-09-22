@@ -1,0 +1,25 @@
+---
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
+
+# 翻译为法语
+hero:
+  name: "Easy Stack"
+  text: ""
+  tagline: Mon excellent projet
+  actions:
+    - theme: brand
+      text: Exemples Markdown
+      link: /markdown-examples
+    - theme: alt
+      text: Exemples API
+      link: /api-examples
+features:
+  - title: Feature A
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Feature B
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Feature C
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+---
+
